@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Клініка — голосовий помічник (тест v19)</title>
+<style>
+:root {
+    --brand:#0b3d91;
+    --bg:#f7f8fb;
+    --card:#fff;
+    --ink:#1a1a1a;
+    --muted:#5e6577;
+    --ok:#0a7f3f;
+    --warn:#9a4a00;
+    --line:#e1e4ec;
+}
+* { box-sizing:border-box; }
+html, body {
+    margin:0; padding:0;
+    background:var(--bg);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+}
+.wrap {
+    max-width:560px;
+    margin:0 auto;
+    padding:32px 20px 80px;
+}
+header h1 {
+    margin:0 0 6px;
+    font-size:22px;
+    color:var(--brand);
+}
+header p {
+    margin:0 0 24px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.5;
+}
+.brand-picker {
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+}
+.brand-picker button {
+    flex:1;
+    padding:10px 8px;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:10px;
+    cursor:pointer;
+    font:inherit;
+    font-size:13px;
+    color:var(--ink);
+    transition:all .12s ease;
+}
+.brand-picker button.active {
+    border-color:var(--brand);
+    background:#eef3ff;
+    color:var(--brand);
+    font-weight:600;
+}
+.card {
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+.status {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    font-size:14px;
+}
+.dot {
+    width:10px; height:10px;
+    border-radius:50%;
+    background:#c0c4d0;
+}
+.dot.connecting { background:#f0a020; animation:pulse 1s infinite; }
+.dot.connected { background:var(--ok); }
+.dot.error { background:#b00020; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.controls {
+    display:flex; gap:10px;
+    margin-bottom:18px;
+}
+.controls button {
+    flex:1;
+    padding:14px 16px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font:inherit;
+    font-size:15px;
+    font-weight:600;
+    transition:all .12s ease;
+}
+.controls button.primary {
+    background:var(--brand);
+    color:#fff;
+}
+.controls button.primary:hover { background:#0a347d; }
+.controls button.secondary {
+    background:var(--card);
+    color:var(--ink);
+    border:1px solid var(--line);
+}
+.controls button:disabled {
+    opacity:.5;
+    cursor:not-allowed;
+}
+.transcript {
+    background:var(--bg);
+    border-radius:10px;
+    padding:14px;
+    max-height:340px;
+    overflow-y:auto;
+    font-size:14px;
+    line-height:1.5;
+    min-height:120px;
+}
+.transcript:empty::before {
+    content:"Натисніть «Подзвонити», дозвольте мікрофон і починайте розмову. Спробуйте: «У мене батько вже три дні пʼє», «А скільки коштує виїзд?», «Запишіть мене на консультацію психіатра».";
+    color:var(--muted);
+    font-style:italic;
+}
+.msg {
+    margin:6px 0;
+    padding:8px 12px;
+    border-radius:10px;
+    max-width:90%;
+    word-wrap:break-word;
+}
+.msg.user {
+    background:#eef3ff;
+    color:var(--brand);
+    margin-left:auto;
+    text-align:right;
+}
+.msg.bot {
+    background:var(--card);
+    border:1px solid var(--line);
+}
+.msg b { font-size:11px; opacity:.7; text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:2px; }
+.hint {
+    margin-top:16px;
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.45;
+}
+.access {
+    background:#fff7e6;
+    border:1px solid #f0c97a;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:20px;
+    font-size:13px;
+    color:var(--warn);
+}
+.access h3 { margin:0 0 6px; font-size:13px; }
+.access input {
+    width:100%;
+    padding:8px 10px;
+    border:1px solid #e7c98a;
+    border-radius:6px;
+    font:inherit;
+    margin-top:6px;
+}
+.gated .main { display:none; }
+.gated .access { display:block; }
+.main { display:block; }
+.access { display:none; }
+</style>
+</head>
+<body class="gated">
+<div class="wrap">
+    <header>
+        <h1>Клініка — тест голосового помічника</h1>
+        <p>Demo v19. Працює у браузері на ПК і телефоні, без роумінгу. Дозвольте мікрофон і починайте розмову. Можна перемикати персону клініки — бот вітатиме брендово.</p>
+    </header>
+
+    <div class="access">
+        <h3>Пароль доступу</h3>
+        <input id="gate" type="password" placeholder="введіть пароль" autocomplete="off">
+    </div>
+
+    <div class="main">
+        <div class="brand-picker">
+            <button data-brand="petra" class="active">Петра і Павла</button>
+            <button data-brand="sion">Сіон</button>
+            <button data-brand="nadia">єНадія</button>
+        </div>
+
+        <div class="card">
+            <div class="status">
+                <span class="dot" id="dot"></span>
+                <span id="status">Не на лінії</span>
+            </div>
+            <div class="controls">
+                <button id="start" class="primary">Подзвонити</button>
+                <button id="end" class="secondary" disabled>Покласти</button>
+            </div>
+            <div class="transcript" id="log"></div>
+        </div>
+
+        <p class="hint">
+            Демо живе ~24 години. Для постійної роботи бот ставиться на номер вашого Binotel — клієнт нічого не помітить, дзвінок іде внутрішньо через SIP.
+        </p>
+    </div>
+</div>
+
+<script type="module">
+import Vapi from "https://esm.sh/@vapi-ai/web@2.3.10";
+
+const VAPI_KEY = "8d472fb6-9c61-438a-8fc2-3eb191cd77e2";
+const ASSISTANT_ID = "4391e712-4c04-4c09-bbd7-90461ebf4a5e";
+const ACCESS_PASS = "My-Drop-Site";
+
+const body = document.body;
+const gate = document.getElementById("gate");
+
+gate.addEventListener("input", () => {
+    if (gate.value.trim() === ACCESS_PASS) {
+        body.classList.remove("gated");
+        try { sessionStorage.setItem("petra-gate", "ok"); } catch (e) {}
+    }
+});
+if (sessionStorage.getItem("petra-gate") === "ok") {
+    body.classList.remove("gated");
+}
+
+let currentBrand = "petra";
+const brandButtons = document.querySelectorAll(".brand-picker button");
+brandButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        if (active) return;
+        brandButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentBrand = btn.dataset.brand;
+    });
+});
+
+const dot = document.getElementById("dot");
+const statusEl = document.getElementById("status");
+const startBtn = document.getElementById("start");
+const endBtn = document.getElementById("end");
+const log = document.getElementById("log");
+
+function setStatus(state, text) {
+    dot.className = "dot " + state;
+    statusEl.textContent = text;
+}
+
+function clearLog() {
+    while (log.firstChild) log.removeChild(log.firstChild);
+}
+
+function append(role, text) {
+    const div = document.createElement("div");
+    div.className = "msg " + role;
+    const b = document.createElement("b");
+    b.textContent = role === "user" ? "Ви" : "Олег";
+    const span = document.createElement("span");
+    span.textContent = text;
+    div.appendChild(b);
+    div.appendChild(span);
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+}
+
+const vapi = new Vapi(VAPI_KEY);
+let active = false;
+
+vapi.on("call-start", () => {
+    active = true;
+    setStatus("connected", "На лінії");
+    startBtn.disabled = true;
+    endBtn.disabled = false;
+});
+
+vapi.on("call-end", () => {
+    active = false;
+    setStatus("", "Не на лінії");
+    startBtn.disabled = false;
+    endBtn.disabled = true;
+});
+
+vapi.on("speech-start", () => setStatus("connected", "Олег говорить"));
+vapi.on("speech-end", () => setStatus("connected", "Слухає вас"));
+
+vapi.on("message", (m) => {
+    if (m.type === "transcript" && m.transcriptType === "final") {
+        const role = m.role === "user" ? "user" : "bot";
+        append(role, m.transcript);
+    }
+});
+
+vapi.on("error", () => {
+    setStatus("error", "Помилка з'єднання, спробуйте ще раз");
+    startBtn.disabled = false;
+    endBtn.disabled = true;
+    active = false;
+});
+
+startBtn.addEventListener("click", async () => {
+    setStatus("connecting", "З'єднуємо...");
+    clearLog();
+    try {
+        await vapi.start(ASSISTANT_ID, {
+            variableValues: { clinic_brand: currentBrand }
+        });
+    } catch (err) {
+        setStatus("error", "Не вдалося стартувати дзвінок");
+        startBtn.disabled = false;
+        endBtn.disabled = true;
+    }
+});
+
+endBtn.addEventListener("click", () => {
+    vapi.stop();
+});
+</script>
+</body>
+</html>
