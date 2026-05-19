@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Демо: Клініка Петра і Павла</title>
+<style>
+:root { --brand:#0b3d91; --bg:#f7f8fb; --card:#fff; --ink:#1a1a1a; --muted:#5e6577; --line:#e1e4ec; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; background:var(--bg); font-family:-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
+.wrap { max-width:680px; margin:0 auto; padding:48px 24px 80px; }
+header { text-align:center; margin-bottom:24px; }
+h1 { color:var(--brand); margin:0 0 12px; font-size:22px; }
+.subtitle { color:var(--muted); margin:0; font-size:14px; }
+.demo-card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; margin-top:20px; }
+.demo-card h2 { margin:0 0 12px; color:var(--brand); font-size:15px; }
+.demo-card p { margin:6px 0; color:var(--muted); font-size:13px; line-height:1.6; }
+.back { display:inline-block; margin-bottom:16px; color:var(--brand); text-decoration:none; font-size:13px; }
+.arrow { display:inline-block; transform:rotate(180deg); margin-right:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <a class="back" href="chat.html"><span class="arrow">→</span> Назад до вибору бренду</a>
+    <header>
+        <h1>Демо: Клініка «Петра і Павла»</h1>
+        <p class="subtitle">Persona: <code>petra</code> · Натисніть синій кружок у правому нижньому куті</p>
+    </header>
+
+    <div class="demo-card">
+        <h2>Сценарії які можна спробувати</h2>
+        <p><strong>1. Звичайна консультація:</strong> «Доброго дня, потрібна консультація психіатра»</p>
+        <p><strong>2. Російською:</strong> «Здравствуйте, у меня тревожное состояние» — бот переключиться на RU</p>
+        <p><strong>3. Питання про ціну:</strong> «Скільки коштує лікування?» — бот не назве конкретних цифр окрім консультації</p>
+        <p><strong>4. Запис на консультацію:</strong> назвіть ім'я і телефон — бот зафіксує лід</p>
+        <p><strong>5. Не з Києва:</strong> «Я з Львова» — бот скаже що працюють у Києві</p>
+        <p><strong>6. Питання «ви бот?»:</strong> бот відповість чесно що він голосовий помічник</p>
+    </div>
+
+    <div class="demo-card">
+        <h2>Як виглядатиме на справжньому сайті</h2>
+        <p>На <code>privatehospital.com.ua</code> і <code>petrapavla.com.ua</code> цей чат буде вбудований у footer. Кнопка у правому нижньому куті — клієнт натискає, з'являється чат.</p>
+    </div>
+</div>
+
+<script src="https://petra-i-pavla-bot.onrender.com/widget.js" data-persona="petra" async></script>
+</body>
+</html>

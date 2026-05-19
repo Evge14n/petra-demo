@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Чат-помічник клінік — демо</title>
+<style>
+:root {
+    --brand:#0b3d91;
+    --bg:#f7f8fb;
+    --card:#fff;
+    --ink:#1a1a1a;
+    --muted:#5e6577;
+    --line:#e1e4ec;
+}
+* { box-sizing:border-box; }
+html, body {
+    margin:0; padding:0;
+    background:var(--bg);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+}
+.wrap { max-width:680px; margin:0 auto; padding:48px 24px 80px; }
+header { text-align:center; margin-bottom:36px; }
+h1 { color:var(--brand); margin:0 0 12px; font-size:24px; }
+.subtitle { color:var(--muted); margin:0; font-size:14px; line-height:1.6; }
+.brands { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:32px 0; }
+@media (max-width:560px){ .brands { grid-template-columns:1fr; } }
+.brand-card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:22px; text-align:center; text-decoration:none; color:inherit; transition:all .2s; }
+.brand-card:hover { border-color:var(--brand); box-shadow:0 4px 16px rgba(11,61,145,.12); }
+.brand-card h3 { margin:0 0 6px; color:var(--brand); font-size:16px; }
+.brand-card p { margin:0; color:var(--muted); font-size:12px; }
+.info { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-top:24px; font-size:13px; line-height:1.7; }
+.info h2 { margin:0 0 12px; color:var(--brand); font-size:14px; }
+.info li { margin:4px 0; }
+.tag { display:inline-block; padding:1px 8px; border-radius:6px; font-size:11px; font-weight:600; background:#e8edff; color:var(--brand); margin-right:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <h1>Чат-помічник клінік — демо</h1>
+        <p class="subtitle">Виберіть бренд щоб подивитись як виглядає чат на відповідному сайті.<br>Кнопка з'явиться у правому нижньому куті.</p>
+    </header>
+
+    <div class="brands">
+        <a class="brand-card" href="chat-petra.html"><h3>Петра і Павла</h3><p>persona: petra</p></a>
+        <a class="brand-card" href="chat-sion.html"><h3>Сіон</h3><p>persona: sion</p></a>
+        <a class="brand-card" href="chat-nadia.html"><h3>єНадія</h3><p>persona: nadia</p></a>
+    </div>
+
+    <div class="info">
+        <h2>Як це працює на реальних сайтах</h2>
+        <ul>
+            <li><span class="tag">3 бренди</span> Бот сам визначає бренд за доменом сайту або через <code>data-persona</code> в JS-snippet.</li>
+            <li><span class="tag">UA + RU</span> Перше повідомлення українською (за брендом), далі підлаштовується під мову клієнта.</li>
+            <li><span class="tag">Без цін</span> Базові консультації відомі. Інше — лікар озвучить при огляді.</li>
+            <li><span class="tag">Безпека</span> Червоні прапори (суїцид, делірій, припадок) — одразу до чергового лікаря.</li>
+            <li><span class="tag">GDPR</span> Під чатом видно нотіс про обробку даних. Клієнт може попросити видалити.</li>
+            <li><span class="tag">Інсталяція</span> Один рядок JS у footer сайту. Підтримує WordPress, Tilda, Wix, кастомні HTML.</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
